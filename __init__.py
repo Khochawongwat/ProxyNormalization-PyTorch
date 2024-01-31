@@ -8,7 +8,7 @@ class ProxyNormalization(nn.Module):
     """
     Proxy Normalization class.
     """
-    def __init__(self, y: torch.Tensor, activation_fn: callable, eps: float, n_samples: int, apply_activation: bool = True):
+    def __init__(self, y: torch.Tensor, activation_fn: callable, eps: float = 0.03, n_samples: int = 256, apply_activation: bool = False):
         super().__init__()
 
         if(y.ndim != 4):
@@ -30,8 +30,6 @@ class ProxyNormalization(nn.Module):
         beta = create_channelwise_variable(self.y, 0.0)
         gamma = create_channelwise_variable(self.y, 1.0)
         
-        #Affine transform equation =  gamma * n + beta
-
         #affine transform on y and apply activation function
         z = self.activation_fn(gamma * self.y.add_(beta))
 
@@ -54,7 +52,6 @@ class ProxyNormalization(nn.Module):
 
         tilde_z = (z - proxy_mean)  * inv_proxy_std
 
-        #Not sure if I should apply activation function here
         if self.apply_activation:
             tilde_z = self.activation_fn(tilde_z)
 
