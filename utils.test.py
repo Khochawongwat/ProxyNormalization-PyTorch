@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 import torch
 from utils import uniformly_sampled_gaussian, create_channelwise_variable
+from __init__ import ProxyNormalization
 
 class TestUniformlySampledGaussian(unittest.TestCase):
     def test_input_type(self):
@@ -26,5 +27,23 @@ class TestCreateChannelwiseVariable(unittest.TestCase):
         result = create_channelwise_variable(y, init)
         self.assertEqual(result.shape, (1, 1, 1, y.shape[-1]))
 
-if __name__ == '__main__':
+class TestProxyNormalization(unittest.TestCase):
+    def setUp(self):
+        self.y = torch.randn(10, 10, 10, 10)
+        self.activation_fn = torch.relu
+        self.eps = 1e-5
+        self.n_samples = 100
+        self.proxy_norm = ProxyNormalization(self.y, self.activation_fn, self.eps, self.n_samples)
+
+    def test_initialization(self):
+        self.assertEqual(self.proxy_norm.y.shape, self.y.shape)
+        self.assertEqual(self.proxy_norm.activation_fn, self.activation_fn)
+        self.assertEqual(self.proxy_norm.eps, self.eps)
+        self.assertEqual(self.proxy_norm.n_samples, self.n_samples)
+
+    def test_forward_output_shape(self):
+        output = self.proxy_norm.forward()
+        self.assertEqual(output.shape, self.y.shape)
+
+if __name__ == "__main__":
     unittest.main()

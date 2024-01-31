@@ -1,4 +1,4 @@
-from sympy import erfinv
+from scipy.special import erfinv
 import numpy as np
 import torch
 from torch import nn

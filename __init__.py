@@ -16,12 +16,12 @@ class ProxyNormalization(nn.Module):
         self.n_samples = n_samples
 
     def forward(self) -> torch.Tensor:
-        beta = create_channelwise_variable(self.y, 0)
-        gamma = create_channelwise_variable(self.y, 1)
+        beta = create_channelwise_variable(self.y, 0.0)
+        gamma = create_channelwise_variable(self.y, 1.0)
 
         z = self.activation_fn(gamma * self.y.add_(beta))
         proxy_y = torch.tensor(uniformly_sampled_gaussian(self.n_samples), dtype=self.y.dtype)
-        proxy_y = proxy_y.view(self.n_samples, 1, 1, 1)
+        proxy_y = torch.randn_like(self.y)
         proxy_z = self.activation_fn(gamma * proxy_y.add_(beta))
 
         proxy_mean = torch.mean(proxy_z, dim=0, keepdim=True)
