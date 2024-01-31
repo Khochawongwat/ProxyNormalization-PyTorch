@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from torch import nn
 
-def uniformly_sampled_gaussian(num_rand: int) -> np.ndarray:
+def uniformly_sampled_gaussian(num_rand: int):
     """
     Function to generate uniformly sampled gaussian values.
     """
@@ -14,7 +14,7 @@ def uniformly_sampled_gaussian(num_rand: int) -> np.ndarray:
     return np.sqrt(2) * erfinv(rand)
 
 
-def create_channelwise_variable(y: torch.Tensor, init: float) -> nn.Parameter:
+def create_channelwise_variable(y: torch.Tensor, init: float):
     """
     Function to create a channel-wise variable.
     """
@@ -23,5 +23,5 @@ def create_channelwise_variable(y: torch.Tensor, init: float) -> nn.Parameter:
     if not isinstance(init, float):
         raise TypeError("init must be a float.")
     
-    num_channels = y.shape[-1]
+    num_channels = int(y.shape[-1])
     return nn.Parameter(init * torch.ones((1, 1, 1, num_channels), dtype=y.dtype))
