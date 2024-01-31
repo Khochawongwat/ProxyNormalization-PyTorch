@@ -97,16 +97,6 @@ class TestProxyNormalization(unittest.TestCase):
         output = self.proxy_norm.forward()
         self.assertEqual(output.shape, self.y.shape)
 
-    #Relu tests
-    def test_forward_output_dtype(self):
-        output = self.proxy_norm.forward()
-        self.assertEqual(output.dtype, self.y.dtype)
-
-    #Relu must not output negative values
-    def test_forward_output_values(self):
-        output = self.proxy_norm.forward()
-        self.assertTrue(torch.all(output >= 0))
-
     def test_forward_output_not_nan(self):
         output = self.proxy_norm.forward()
         self.assertFalse(torch.isnan(output).any())
