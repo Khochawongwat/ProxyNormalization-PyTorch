@@ -1,4 +1,4 @@
-**Proxy Normalization in PyTorch**
+**Proxy Normalization in PyTorch**\n
 Welcome to this repository, which provides an unofficial PyTorch implementation of the paper "Proxy-Normalizing Activations to Match Batch Normalization while Removing Batch Dependence" by Labatie, A., Masters, D., Eaton-Rosen, Z., & Luschi, C. (2022, April 3).
 
 Implementation Highlights
