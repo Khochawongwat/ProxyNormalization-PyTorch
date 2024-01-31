@@ -45,5 +45,20 @@ class TestProxyNormalization(unittest.TestCase):
         output = self.proxy_norm.forward()
         self.assertEqual(output.shape, self.y.shape)
 
+    #Relu test
+    def test_forward_output_dtype(self):
+        output = self.proxy_norm.forward()
+        self.assertEqual(output.dtype, self.y.dtype)
+
+    def test_forward_output_values(self):
+        output = self.proxy_norm.forward()
+        print(output)
+        self.assertTrue(torch.all(output >= 0))
+
+    def test_forward_output_not_nan(self):
+        output = self.proxy_norm.forward()
+        # Check that output does not contain NaN values
+        self.assertFalse(torch.isnan(output).any())
+
 if __name__ == "__main__":
     unittest.main()
