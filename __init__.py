@@ -31,7 +31,7 @@ class ProxyNormalization(nn.Module):
         gamma = create_channelwise_variable(self.y, 1.0)
         
         #affine transform on y and apply activation function
-        z = self.activation_fn(gamma * self.y.add_(beta))
+        z = self.activation_fn((gamma * self.y) + beta)
 
         #Create a proxy distribution of y
         proxy_y = torch.tensor(uniformly_sampled_gaussian(self.n_samples), dtype=self.y.dtype)
